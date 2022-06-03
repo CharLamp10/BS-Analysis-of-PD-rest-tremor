@@ -24,7 +24,7 @@ disp(['Accessing ' projectDir])
 fprintf('\n')
 dataDir = dir(projectDir);
 
-class = fullfile(dataDir(3).folder,dataDir(3).name);
+class = fullfile(dataDir(5).folder,dataDir(5).name);
 disp(['Accessing ' class])
 classDir = dir(class);
 
