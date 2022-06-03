@@ -31,7 +31,7 @@ disp(['Accessing ' projectDir])
 fprintf('\n')
 dataDir = dir(projectDir);
 
-class = fullfile(dataDir(3).folder,dataDir(3).name);
+class = fullfile(dataDir(5).folder,dataDir(5).name);
 disp(['Accessing ' class])
 classDir = dir(class);
 
@@ -42,14 +42,14 @@ Fs = 100; % Sampling rate
 step = 2; % Subsampling step
 nfft = 256; %  Number of lags for the Bispectrum
 thres = [0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25]; % Parameter for NoPeaks calculation
-color = ["y","ygb","yg","yg","yg"]; % Parameter for NoPeaks calculation "yg","yg","yg",
+color = ["yg","yg","yg","y","ygb","yg","yg","yg"]; % Parameter for NoPeaks calculation 
 
 
 varnames = ["diagBicEn28","maxArea","totalArea",...
             "ellipse_similarity_ratio","noPeaks","belongs46","power46",...
             "bspecEn12h8","bspecEn22h8","totalBic2h8","bicEn12h8","bicEn22h8","class"];
         
-situations = ["rof","r15of","r30of","r45of","r60of"];%"ren","ref","ron",
+situations = ["ren","ref","ron","rof","r15of","r30of","r45of","r60of"];
 
 surr_thresh = [readtable('threshold_HAT.csv'), readtable('threshold_LAT.csv'),...
                readtable('threshold_HAT_ron.csv'), readtable('threshold_LAT_ron.csv')...

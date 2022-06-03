@@ -29,7 +29,7 @@ Z = abs(z);
 Vtotal = trapz(y,trapz(x,Z.^2,2));
 
 f4 = 3.5;
-f6 = 6.5; %7.5
+f6 = 6.5;
 x = floor(f4*nfft/Fs):ceil(f6*nfft/Fs);
 y = floor(f4*nfft/Fs):ceil(f6*nfft/Fs);
 Z = abs(z(x,y));
