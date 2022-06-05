@@ -31,6 +31,7 @@ from imblearn.over_sampling import SMOTE
 import plotly.graph_objects as go
 from plotly.offline import plot
 from os.path import exists
+from sklearn.metrics import confusion_matrix
 
 
 def grid_model(param_grid,X_train,y_train,classifier):
@@ -267,7 +268,7 @@ def load_and_oversample(dataset,colstart,colend,ovsmp,random_seed = 42,samp_rati
                 
 "Initializations"
 
-models = [SVC(),SVC(),KNeighborsClassifier(), LogisticRegression(),DecisionTreeClassifier()]#,RandomForestClassifier()]
+models = [SVC(),KNeighborsClassifier(), LogisticRegression()]
 kscore_func = f_classif
 
 path_init = os.getcwd()
@@ -277,29 +278,30 @@ path_init = os.path.join(path_init, 'total_classification_results')
 name = 'total'
 rand = 100
 model_list = ["LinearSVC","kNN","LogRe"]
-fields = ['auc','acc','pre','rec','f1','proba','class']
+fields = ['auc','acc','pre','rec','f1','sens','spec','proba','class']
 sel_fields = ['selected','selected2','varnames','values','counts']
 
-ot = 'Bispec'
 oversampling = 1
 save_plots = 0
-save_selected = 0
+save_selected = 1
 save_results = 1
-save_boot_results = 0
-save_Bic = 0
-save_dataset = 0
+save_boot_results = 1
+save_Bic = 1
+save_dataset = 1
 
 "Make folder"
+if not os.path.exists(path_init):
+    os.mkdir(path_init)
 fname = os.path.join(path_init,name)
 if not os.path.exists(fname):
     os.mkdir(fname)
     
 "Load Datasets"
-rof   = pd.read_csv('Features_rof_new.csv')
-r15of = pd.read_csv('Features_r15of_new.csv')
-r30of = pd.read_csv('Features_r30of_new.csv')
-r45of = pd.read_csv('Features_r45of_new.csv')
-r60of = pd.read_csv('Features_r60of_new.csv')
+rof   = pd.read_csv('Features_rof.csv')
+r15of = pd.read_csv('Features_r15of.csv')
+r30of = pd.read_csv('Features_r30of.csv')
+r45of = pd.read_csv('Features_r45of.csv')
+r60of = pd.read_csv('Features_r60of.csv')
 
 "Get column names"
 col_names = rof.columns
@@ -435,6 +437,9 @@ for ksel in range (8,9):
             results[model_list[j]]['pre'].append(precision_score(y_true,y_pred))
             results[model_list[j]]['rec'].append(recall_score(y_true,y_pred))
             results[model_list[j]]['f1'].append(f1_score(y_true,y_pred))
+            conf_mat = confusion_matrix(y_true,y_pred)
+            results[model_list[j]]['sens'].append(conf_mat[0,0]/(conf_mat[0,0]+conf_mat[0,1]))
+            results[model_list[j]]['spec'].append(conf_mat[1,1]/(conf_mat[1,1]+conf_mat[1,0]))
             
             #fpr,tpr = construct_roc(y_pred_proba,y_true,0.1)
             fpr,tpr,_ = roc_curve(y_true,y_pred_proba,pos_label = 1, drop_intermediate = False)
@@ -455,7 +460,7 @@ for ksel in range (8,9):
                     'values': values,
                     'counts': counts}
     if save_selected:
-        sel_folder = os.path.join(fname,'selected ' + ot)
+        sel_folder = os.path.join(fname,'selected')
         if not os.path.exists(sel_folder):
             os.mkdir(sel_folder)
         sel_file = os.path.join(sel_folder,name + '_' + 'k' + str(kselec) +'.npy')
@@ -467,7 +472,7 @@ for ksel in range (8,9):
         results[model]['class'].append(y_true)
     
     "Save mean,+-CI of each feature in results dict"         
-    metrics = ['auc','acc','pre','rec','f1']
+    metrics = ['auc','acc','pre','rec','f1','sens','spec']
     for model in model_list:
         for mi in metrics:
             CI = []
@@ -481,7 +486,7 @@ for ksel in range (8,9):
             results[model][mi] = CI
     
     "Prepare folder and paths for saving plots"  
-    folderpath = os.path.join(fname,'plots '+ ot)
+    folderpath = os.path.join(fname,'plots')
     if not os.path.exists(folderpath):               
         os.mkdir(folderpath)
     
@@ -492,7 +497,7 @@ for ksel in range (8,9):
         btstrp_results['k'] = ksel
         fig = plot_single_roc(btstrp_results,model,name)
         if save_boot_results:
-            boot_folder = os.path.join(fname,'boot_rocs ' + ot)
+            boot_folder = os.path.join(fname,'boot_rocs')
             if not os.path.exists(boot_folder):
                 os.mkdir(boot_folder)
             boot_file = os.path.join(boot_folder,name + '_' + model + '_' + 'k' + str(ksel) +'.npy')
@@ -501,10 +506,10 @@ for ksel in range (8,9):
             fig.write_image(os.path.join(folderpath,model+".png"))
     
     "Save Results"                        
-    folderpath = os.path.join(fname,'results '+ot)
+    folderpath = os.path.join(fname,'results')
     if save_results:
         if not os.path.exists(folderpath):
             os.mkdir(folderpath)
-        savepath = os.path.join(folderpath,name+'_'+ ot + '_' + 'k' + str(ksel) + ' sb.npy')
+        savepath = os.path.join(folderpath,name + '_' + 'k' + str(ksel) + ' sb.npy')
         np.save(savepath,results)       
     

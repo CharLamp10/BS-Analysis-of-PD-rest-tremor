@@ -25,7 +25,6 @@ from matplotlib.ticker import NullFormatter
 from sklearn.neighbors import LocalOutlierFactor
 from sklearn.ensemble import IsolationForest
 from sklearn.cluster import MeanShift
-from clusteval import clusteval
 from itertools import combinations
 import os
 
@@ -132,7 +131,6 @@ for n in range(len(names)):
         
     dataset_cut = dataset[dataset.columns.difference(remove,sort = False)]
     dataset_cut = dataset_cut.iloc[0:dataset_cut.iloc[:,1].size, 0:10-len(remove)]
-    str1 = 'Bispec'
     dataset_np = dataset_cut.values    
     most_common_class,smc,silhouette,scData = clustering_pipeline(dataset_np,clas,rand,n_components,max_clusters)
 
@@ -150,7 +148,7 @@ for n in range(len(names)):
         df_folder = os.path.join(path_init,'clustering_results')
         if not os.path.exists(df_folder):
             os.mkdir(df_folder)
-        df_path = os.path.join(df_folder,names[n] + ' ' + str1 + ' clustering dataset')            
+        df_path = os.path.join(df_folder,names[n] + ' ' + ' clustering dataset')            
         np.save(df_path+' dictionary.npy',dictionary)
         new_datasetDf.to_csv(df_path+' table.csv',index = False)
 
