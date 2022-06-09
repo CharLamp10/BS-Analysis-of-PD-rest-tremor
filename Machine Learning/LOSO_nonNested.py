@@ -306,7 +306,7 @@ path_init = os.getcwd()
 path_init = os.path.join(path_init, 'classification_results')
 
 names = ['characteristics_MedDbsOnOffFirst4']
-clas = 'class'#Med, DBS
+clas = 'DBS'#Med, DBS, class
 rand = 100
 model_list = ["rbfSVC"]
 fields = ['auc','acc','sens','spec','proba','class']
@@ -319,7 +319,7 @@ save_results = 1
 save_boot_results = 1
 n_jobs = -1
 
-for ksel in range (4,5):
+for ksel in range (3,4):
     for name in names:
     
         results = {}  

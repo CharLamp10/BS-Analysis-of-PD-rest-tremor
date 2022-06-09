@@ -2,7 +2,7 @@
 %% and Classification Insights Pre-/Post-DBS and Medication Treatment
 
 function [maxArea,totalArea,ellipse_similarity_ratio,number_of_peaks,belongs_46,...
-     power_per_4_6,bspecEn128,bspecEn228,totalBic28,diagBicEn28,bicEn128,bicEn228]...
+     power_per_4_6,bspecEn128,bspecEn228,totalBic28,bicEn128,bicEn228]...
      = FeatureExtractionWholeSignal(signal,Fs,nfft,thres,surr_thresh,color,lowLim,upLim)
  % In this function takes place the calculation of all features.
  %% Inputs:
@@ -66,8 +66,6 @@ if max(max(bspec)) ~= 0
        
     totalBic28 = sum(bic_cut(lowLim:upLim,lowLim:upLim),'all');
     M = upLim - lowLim + 1;
-    diagBicEn28 = -(1/log2(M))*sum(diag(bic_cut(lowLim:upLim,lowLim:upLim))...
-        .*log2(diag(bic_cut(lowLim:upLim,lowLim:upLim))));
    
     power_per_4_6 = bandPower46(bspec,lastSamp,Fs,nfft);
 end
