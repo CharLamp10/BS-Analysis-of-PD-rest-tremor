@@ -137,7 +137,6 @@ open_plots = False
 
 names = ['Features_rof','Features_r15of','Features_r30of','Features_r45of','Features_r60of','total']
 model_list = ["LinearSVC"]
-ot = 'Bispec'
 plot_labels = ''
 fields = ['tpr_original','tpr_upper','tpr_lower','mean_auc','high_auc',
           'low_auc','c_fill','c_line','c_line_main']
@@ -157,9 +156,9 @@ for model in model_list:
             os.mkdir(folderpath)
        
         if name == 'total':
-            filepath = os.path.join(path_method2,name,'boot_rocs '+ot,name+'_'+model+'_k'+str(k)+'.npy')
+            filepath = os.path.join(path_method2,name,'boot_rocs',name+'_'+model+'_k'+str(k)+'.npy')
         else:
-            filepath = os.path.join(path_method1,name,'boot_rocs '+ot,name+'_'+model+'_k'+str(k)+'.npy')
+            filepath = os.path.join(path_method1,name,'boot_rocs',name+'_'+model+'_k'+str(k)+'.npy')
         btstrp_results =  np.load(filepath,allow_pickle='TRUE').item()
         ksel = btstrp_results['k']
         all_results['tpr_original'] = btstrp_results['tpr_original']
