@@ -315,8 +315,8 @@ sel_fields = ['selected','selected2','varnames','values','counts']
 oversampling = 1
 save_plots = 0
 save_selected = 1
-save_results = 1
-save_boot_results = 1
+save_results = 0
+save_boot_results = 0
 n_jobs = -1
 
 for ksel in range (3,4):
@@ -391,10 +391,13 @@ for ksel in range (3,4):
                 results[model_list[j]]['auc'].append(roc_auc_score(y,probs))
                 
                 if j == 0 and m == 0:
+                    sel_dict = {}
                     for train_index, test_index in cv.split(X):
                         selector = SelectKBest(f_classif,k = kselec)
                         selector.fit(X[train_index,:],y[train_index])
                         selected.append(selector.get_support(indices = True))
+                    sel_dict['k' + str(ksel)] = {'selected': selected,
+                                'varnames':varnames}
                 
        
         
@@ -443,6 +446,14 @@ for ksel in range (3,4):
                 os.mkdir(folderpath)
             savepath = os.path.join(folderpath,name + '_' + 'k' + str(ksel) + '_' + clas + ' rbf sb.npy')
             np.save(savepath,results)       
+        
+        "Save Selected"
+        if save_selected:
+            sel_folder = os.path.join(fname,'selected')
+            if not os.path.exists(sel_folder):
+                os.mkdir(sel_folder)
+            sel_file = os.path.join(sel_folder,clas + '_' + 'k' + str(kselec) +'.npy')
+            np.save(sel_file,sel_dict)
 
             
         

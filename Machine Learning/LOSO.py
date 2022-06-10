@@ -408,8 +408,7 @@ for ksel in range (8,9):
                 CI.append(meanf_high)
                 results[model][mi] = CI
         
-        "Prepare folder and paths for saving plots"
-        
+        "Prepare folder and paths for saving plots"       
         folderpath = os.path.join(fname,'plots ')
         if not os.path.exists(folderpath):               
             os.mkdir(folderpath)
