@@ -14,7 +14,7 @@ import os
 import seaborn as sb
 
 sb.set_theme()
-save_plots = False
+save_plots = True
 
 """ Initializations """
 path_init = os.getcwd()
