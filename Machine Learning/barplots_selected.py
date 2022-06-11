@@ -1,8 +1,15 @@
-# -*- coding: utf-8 -*-
 """
-Created on Fri Dec 10 13:39:09 2021
+Bispectral Analysis of Parkinsonian Rest Tremor: New Characterization
+and Classification Insights Pre-/Post-DBS and Medication Treatment
 
-@author: HP
+In this script the barplot with the selected features, as shown in figure 3
+of ( https://doi.org/10.36227/techrxiv.19589728.v1).
+
+-----------------------------------------------------------------------------------------------------------------
+Authors: Charalampos Lamprou & Ioannis Ziogas
+Copyright (C) 2022 Ioannis Ziogas and Charalampos Lamprou,SPBTU,ECE,AUTh
+-----------------------------------------------------------------------------------------------------------------
+
 """
 
 import numpy as np
