@@ -303,13 +303,48 @@ r30of = pd.read_csv('Features_r30of.csv')
 r45of = pd.read_csv('Features_r45of.csv')
 r60of = pd.read_csv('Features_r60of.csv')
 
+HAT = np.zeros((6,11))
+temp = []
+temp.append(rof.iloc[0,:-1].values)
+temp.append(r15of.iloc[0,:-1].values)
+temp.append(r30of.iloc[0,:-1].values)
+temp.append(r45of.iloc[0,:-1].values)
+temp.append(r60of.iloc[0,:-1].values)
+temp = np.array(temp)
+HAT[0,:] = np.mean(temp,axis = 0)
+
+temp = []
+temp.append(rof.iloc[1,:-1].values)
+temp.append(r15of.iloc[1,:-1].values)
+temp.append(r30of.iloc[1,:-1].values)
+temp.append(r45of.iloc[1,:-1].values)
+temp.append(r60of.iloc[1,:-1].values)
+temp = np.array(temp)
+HAT[1,:] = np.mean(temp,axis = 0)
+
+temp = []
+temp.append(rof.iloc[2,:-1].values)
+temp.append(r30of.iloc[2,:-1].values)
+temp.append(r60of.iloc[2,:-1].values)
+temp = np.array(temp)
+HAT[2,:] = np.mean(temp,axis = 0)
+
+temp = []
+temp.append(rof.iloc[3,:-1].values)
+temp.append(r15of.iloc[3,:-1].values)
+temp.append(r30of.iloc[3,:-1].values)
+temp.append(r45of.iloc[3,:-1].values)
+temp.append(r60of.iloc[3,:-1].values)
+temp = np.array(temp)
+HAT[3,:] = np.mean(temp,axis = 0)
+
+HAT[4,:] = rof.iloc[4,:-1].values
+HAT[5,:] = rof.iloc[5,:-1].values
+
 "Get column names"
 col_names = rof.columns
 
 "Delete v4,v5,s7 & Convert to numpy"
-rof.drop([2,4,5],axis = 0,inplace = True)
-r30of.drop(2,axis = 0,inplace = True)
-r60of.drop(2,axis = 0,inplace = True)
 rof = rof.to_numpy()
 r15of = r15of.to_numpy()
 r30of = r30of.to_numpy()
@@ -318,17 +353,20 @@ r60of = r60of.to_numpy()
 
 "Take the mean"
 r,c = rof.shape
-total = np.zeros((r,c,5))
-total[:,:,0] = rof
-total[:,:,1] = r15of
-total[:,:,2] = r30of
-total[:,:,3] = r45of
-total[:,:,4] = r60of
+LAT = np.zeros((8,11,5))
+LAT[:,:,0] = rof[6:,:-1]
+LAT[:,:,1] = r15of[3:,:-1]
+LAT[:,:,2] = r30of[4:,:-1]
+LAT[:,:,3] = r45of[3:,:-1]
+LAT[:,:,4] = r60of[4:,:-1]
 
-dataset = np.mean(total,axis = 2)
-temp = np.mean(total[:,:,1:5],axis = 2)
-tempDf = pd.DataFrame(temp, columns = col_names)
-datasetDf = pd.DataFrame(dataset, columns = col_names)
+dataset = np.mean(LAT,axis = 2)
+LAT = np.mean(LAT[:,:,1:5],axis = 2)
+
+total = np.concatenate((HAT,LAT),axis = 0)
+
+tempDf = pd.DataFrame(total, columns = col_names[:-1])
+datasetDf = pd.DataFrame(dataset, columns = col_names[:-1])
 if save_dataset:
     datasetDf.to_csv('total_dataset.csv', index = False)
 
