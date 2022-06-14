@@ -60,8 +60,8 @@ if save_plots:
     fig.savefig(fname,bbox_inches='tight')
 
 """ Med On/Off"""
-features = ["bicEn12h8","bspecEn22h8","totalArea","power46"]
-plot_labels = ["BicEnt1","BspecEnt2","TotalArea","Power46"]
+features = ["bicEn12h8","bspecEn12h8","totalArea","power46"]
+plot_labels = ["BicEnt1","BspecEnt1","TotalArea","Power46"]
 dataset = pd.read_csv('characteristics_MedDbsOnOffFirst4.csv')
 
 clas = dataset['Med']

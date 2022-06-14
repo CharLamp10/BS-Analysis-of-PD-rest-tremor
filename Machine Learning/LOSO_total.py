@@ -475,9 +475,9 @@ for ksel in range (8,9):
             results[model_list[j]]['pre'].append(precision_score(y_true,y_pred))
             results[model_list[j]]['rec'].append(recall_score(y_true,y_pred))
             results[model_list[j]]['f1'].append(f1_score(y_true,y_pred))
-            conf_mat = confusion_matrix(y_true,y_pred)
-            results[model_list[j]]['sens'].append(conf_mat[0,0]/(conf_mat[0,0]+conf_mat[0,1]))
-            results[model_list[j]]['spec'].append(conf_mat[1,1]/(conf_mat[1,1]+conf_mat[1,0]))
+            tn, fp, fn, tp = confusion_matrix(y_true,y_pred).ravel()
+            results[model_list[j]]['sens'].append(tp/(tp+fn))
+            results[model_list[j]]['spec'].append(tn/(tn+fp))
             
             #fpr,tpr = construct_roc(y_pred_proba,y_true,0.1)
             fpr,tpr,_ = roc_curve(y_true,y_pred_proba,pos_label = 1, drop_intermediate = False)

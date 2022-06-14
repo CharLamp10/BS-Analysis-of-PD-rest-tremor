@@ -382,9 +382,9 @@ for ksel in range (4,5):
                 
                 clf.fit(X, y)
                 y_pred = clf.predict(X)
-                conf_mat = confusion_matrix(y,y_pred)
-                results[model_list[j]]['sens'].append(conf_mat[0,0]/(conf_mat[0,0]+conf_mat[0,1]))
-                results[model_list[j]]['spec'].append(conf_mat[1,1]/(conf_mat[1,1]+conf_mat[1,0]))
+                tn, fp, fn, tp = confusion_matrix(y,y_pred).ravel()
+                results[model_list[j]]['sens'].append(tp/(tp+fn))
+                results[model_list[j]]['spec'].append(tn/(tn+fp))
                 results[model_list[j]]['acc'].append(clf.score(X,y))
                 probs = clf.predict_proba(X)[:,1]
                 results[model_list[j]]['proba'].append(probs)
