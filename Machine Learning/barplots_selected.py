@@ -104,9 +104,9 @@ df = df.rename(columns = {0:'Features', 1:'Counts', 2:''})
 plt.figure(dpi = 600)
 
 plot = sb.barplot(x="Features", y = "Counts", hue = "", data = df, palette="Blues_d")    
-plt.xticks(rotation=70)
-plt.tick_params(labelsize = 7)
-plt.ylabel('Percentage (%)',fontsize = 10)
+plt.xticks(rotation=65)
+plt.tick_params(labelsize = 12)
+plt.ylabel('Percentage (%)',fontsize = 15)
 plt.xlabel('',fontsize = 10)
 plt.legend(loc='upper left', fontsize='7')
 

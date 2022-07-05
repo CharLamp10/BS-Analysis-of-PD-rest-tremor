@@ -76,7 +76,7 @@ def plot_roc(fig,results,model,name,i,plot_labels,ksel,open_plots):
     
     fig.update_layout(
         #title_text = model,
-        #title_font_size= 30,
+        #title_font_size= 10,
         template    = 'plotly_white', 
         #title_x     = 0.5,
         xaxis1_title = "1-Specificity",
@@ -91,6 +91,8 @@ def plot_roc(fig,results,model,name,i,plot_labels,ksel,open_plots):
         #yaxis5_title = "Sensitivity",
         #xaxis6_title = "1-Specificity",
         #yaxis6_title = "Sensitivity",
+        font=dict(
+        size=15),
         width       = 800,
         height      = 800,
         
@@ -170,6 +172,7 @@ for model in model_list:
         all_results['fpr_mean'] = btstrp_results['fpr_mean']
         if i == 0:
             fig = make_subplots(rows=2, cols=3,subplot_titles=("rof", "r15of", "r30of", "r45of","r60of","Grand Average"))
+            fig.update_annotations(font_size=18)
         if name == 'total':
             name = 'Grand Average'
         else:
