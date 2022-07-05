@@ -19,11 +19,11 @@ close all
 figstate = 'on';
 savep = 1;
 alpha = 0.05;
-vars = {'bspecEn12h8','bicEn12h8'};%,{'totalBic2h8','power46'};{'bspecEn12h8','bicEn12h8'}
+% vars = {'bspecEn12h8','bicEn12h8'};%,{'totalBic2h8','power46'};{'bspecEn12h8','bicEn12h8'}
 time_labels = {'mOn dOff','mOff dOn','mOff dOff','mOff dOff 15',...
     'mOff dOff 30','mOff dOff 45','mOff dOff 60','mOn dOn'};
 fullpath = pwd;
-varsplot = {'BspecEnt1','BicEnt1'};%{'BspecEnt1','BicEnt1','TotalBic','Power46'};
+% varsplot = {'BspecEnt1','BicEnt1'};%{'BspecEnt1','BicEnt1','TotalBic','Power46'};
 
 %sgtitle(msg)
 fig = figure('Visible',figstate);
@@ -110,11 +110,12 @@ for j = 1:2
            ylabel([varsplot{1,v},' %'])
         end
         xticklabels(time_labels)
+%         ax.XAxis.FontSize = 8;
         xtickangle(45)
         hold off
     end
 
-    if savep
-        print(gcf,['time_paper',num2str(j),'.png'],'-dpng','-r600'); % 300 dpi
-    end
+%     if savep
+%         print(gcf,['time_paper',num2str(j),'.png'],'-dpng','-r600'); % 300 dpi
+%     end
 end
